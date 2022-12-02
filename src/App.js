@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import React, {Component} from "react";
 import Overview from "./components/Overview";
 
@@ -9,7 +10,7 @@ class App extends Component {
       task: {
         text: '', 
         taskNumber: 0, 
-        id: '' 
+        id: nanoid() 
       },
       tasks: [],
   
@@ -19,18 +20,22 @@ class App extends Component {
     const {task, tasks} = this.state;
     const handleChange = (e) =>{
       const {value} = e.target;
-      this.setState({task: {text: value,taskNumber: tasks.length}})
+      this.setState({task: {text: value,taskNumber: tasks.length, id: task.id}})
     }
     const handleSubmit = (e) =>{
       e.preventDefault();
       this.setState((prevState)=>{
 
         return{
-          task: {...prevState.task, taskNumber: prevState.tasks.length + 1},
+          task: {...prevState.task, taskNumber: prevState.tasks.length + 1, id: nanoid()},
           tasks: [...prevState.tasks, task]
         }
       })
     }
+    const deleteTask = (task) => {
+      
+    }
+      console.log(tasks);
     return (
       <div className="App">
         <form onSubmit={handleSubmit}>
