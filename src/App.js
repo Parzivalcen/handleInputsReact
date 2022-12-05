@@ -10,7 +10,8 @@ class App extends Component {
       task: {
         text: '', 
         taskNumber: 0, 
-        id: nanoid() 
+        id: nanoid(),
+        editing: false
       },
       tasks: [],
   
@@ -32,10 +33,32 @@ class App extends Component {
         }
       })
     }
-    const deleteTask = (task) => {
-      
-    }
-      console.log(tasks);
+    const deleteTask = (taskid) => {
+          this.setState(prevState=>{
+            const oldTasks = prevState.tasks
+            let newTasks = oldTasks.filter(oldTask=> oldTask.id !== taskid)
+            console.log('new', typeof(taskid) )
+            return {
+              tasks: [...newTasks]
+            }
+          })
+        }
+      const editTask = (taskid) =>{
+        this.setState(prevState=>{
+          const oldTasks = prevState.tasks;
+          let newTasks = oldTasks.map(task=>{
+            if(taskid === task.id){
+              console.log(taskid)
+              task.editing = !task.editing;
+            }
+            return oldTasks
+          })
+          return{
+            tasks: [...newTasks]
+          }
+        })
+      }
+      // console.log(tasks);
     return (
       <div className="App">
         <form onSubmit={handleSubmit}>
@@ -43,7 +66,10 @@ class App extends Component {
           <input value={task.text} onChange={handleChange} type="text" name="taskInput"/>
           <button type="submit" >Add task</button>
         </form>
-        <Overview tasks={tasks} />
+        <Overview tasks={tasks} 
+        deleteTask={deleteTask}
+        editTask={editTask} />
+
       </div>
   )};
 }
