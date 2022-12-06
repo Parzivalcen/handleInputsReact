@@ -21,7 +21,7 @@ class App extends Component {
     const {task, tasks} = this.state;
     const handleChange = (e) =>{
       const {value} = e.target;
-      this.setState({task: {text: value,taskNumber: tasks.length, id: task.id}})
+      this.setState({task: {text: value,taskNumber: tasks.length, id: task.id, editing: false}})
     }
     const handleSubmit = (e) =>{
       e.preventDefault();
@@ -43,16 +43,17 @@ class App extends Component {
             }
           })
         }
-      const editTask = (taskid) =>{
+      const editTask = (e, taskid) =>{
         this.setState(prevState=>{
           const oldTasks = prevState.tasks;
           let newTasks = oldTasks.map(task=>{
             if(taskid === task.id){
-              console.log(taskid)
-              task.editing = !task.editing;
+              
+              return {...task, editing: !task.editing}
             }
-            return oldTasks
+            return task
           })
+          console.log(newTasks)
           return{
             tasks: [...newTasks]
           }
