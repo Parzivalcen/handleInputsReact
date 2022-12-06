@@ -7,8 +7,15 @@ class Overview extends Component {
                 {!task.editing ? 
                 <div>
                     <span>{task.taskNumber} - {task.text}</span>
-                </div> :
-                <input></input>
+                    <button onClick={(e)=>this.props.editTask(e, task.id)}>Edit</button>
+                    <button onClick={()=>this.props.deleteTask(task.id)}>delete</button>
+                </div> 
+                :
+                <div>
+                    <input value={task.text}/>
+                    <button onClick={(e)=>this.props.editTask(e, task.id)}>Edit</button>
+                    <button onClick={()=>this.props.deleteTask(task.id)}>delete</button>
+                </div> 
                 }
             </li>
         ))
