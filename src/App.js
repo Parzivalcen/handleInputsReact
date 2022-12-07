@@ -43,23 +43,45 @@ class App extends Component {
             }
           })
         }
-      const editTask = (e, taskid) =>{
-        this.setState(prevState=>{
-          const oldTasks = prevState.tasks;
-          let newTasks = oldTasks.map(task=>{
-            if(taskid === task.id){
+        const editTask = (e, taskid) =>{
+          this.setState(prevState=>{
+            const oldTasks = prevState.tasks;
+            let newTasks = oldTasks.map(task=>{
+              if(!task.editing){
+              if(taskid === task.id){
+                
+                return {...task, editing: !task.editing}
+              }
+            }else{
+              const {value} = e.target.previousElementSibling;
+              console.log(value)
+              return {text: value, ...task,  editing: !task.editing}
+          
               
-              return {...task, editing: !task.editing}
             }
-            return task
+            return task;
           })
-          console.log(newTasks)
           return{
             tasks: [...newTasks]
           }
         })
       }
-      // console.log(tasks);
+      const editInputChange = (e, taskid) =>{
+        this.setState(prevState=>{
+          const oldTasks = prevState.tasks;
+          let newTasks = oldTasks.map(task=>{
+              const {value} = e.target;
+              if(taskid === task.id){
+              return {...task, text: value}
+              }
+              return task
+            })
+            
+            return{
+              tasks: [...newTasks]
+            }
+          })
+      }
     return (
       <div className="App">
         <form onSubmit={handleSubmit}>
@@ -69,7 +91,8 @@ class App extends Component {
         </form>
         <Overview tasks={tasks} 
         deleteTask={deleteTask}
-        editTask={editTask} />
+        editTask={editTask}
+        editInputChange={editInputChange} />
 
       </div>
   )};
